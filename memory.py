@@ -63,19 +63,35 @@ def draw():
     shape(car)
     stamp()
 
+    
+    color_dict = {}
+
     for count in range(64):
         if hide[count]:
             x, y = xy(count)
             square(x, y)
 
-    mark = state['mark']
+    for count in range(64):
+        if not hide[count]:
+            continue
 
-    if mark is not None and hide[mark]:
-        x, y = xy(mark)
+        x, y = xy(count)
+        mark = state['mark']
+
+        if mark == count:
+            color('black')
+        else:
+            num = tiles[count]
+
+            #
+            digit_color = color_dict.get(num, choice(['blue', 'green', 'red', 'yellow', 'orange', 'purple']))
+            color_dict[num] = digit_color
+
+            color('black', digit_color)
+
         up()
-        goto(x + 2, y)
-        color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        goto(x + 25, y + 20)  
+        write(tiles[count], align='center', font=('Arial', 15, 'normal'))
 
     update()
     ontimer(draw, 100)
@@ -89,3 +105,6 @@ tracer(False)
 onscreenclick(tap)
 draw()
 done()
+
+
+ 
